@@ -1,0 +1,48 @@
+{
+  "root": true, // Make sure ESLint doesn't search up the directory tree
+  "ignorePatterns": [
+    "projects/**/*" // Ignore generated projects (like those in an Angular monorepo)
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json" // Path to your tsconfig
+        ]
+      },
+      "extends": [
+        "airbnb-base", // Use airbnb style guide
+        "plugin:import/recommended", // Enable import plugin
+        "plugin:node/recommended", // Node.js best practices
+        "plugin:promise/recommended", // Promise best practices
+        "plugin:unicorn/recommended", // Unicorn rules
+        "plugin:@typescript-eslint/recommended", // Recommended TypeScript rules
+        "prettier", // Enable prettier
+        "prettier/prettier", // Make sure prettier overrides the airbnb rules
+        "eslint:recommended" // Recommended rules from eslint
+      ],
+      "rules": {
+        // Customize rules here if needed.  For example:
+        "no-console": "warn", // Warn about console.log statements
+        "@typescript-eslint/explicit-function-return-type": "off", // For example, disable explicit return types (use with caution!)
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}] // Allow dev dependencies imports
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
+      "rules": {
+        "@angular-eslint/template/accessibility-alt-text": "off" // Example, disable alt text rule.
+      }
+    }
+  ]
+}
+  
