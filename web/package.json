@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write \"src/**/*.{ts,js,json,html,css,scss}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,js,json,html,css,scss}\""
+    "format:check": "prettier --check \"src/**/*.{ts,js,json,html,css,scss}\"",
+    "dev": " ng serve --host 0.0.0.0 --poll 500"
   },
   "private": true,
   "dependencies": {

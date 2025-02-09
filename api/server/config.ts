@@ -10,7 +10,7 @@ const HOST = '0.0.0.0';
 const PG_CONNECTION = {
   host: 'db', // host of db container'
   port: 5432, // 5432 is the default;
-  database: 'trainingDashboard', // database name
+  database: 'postgres', // database name
   user: 'postgres', // database user name
   password: 'postgres', // database password
 };
