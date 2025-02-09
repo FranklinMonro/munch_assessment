@@ -27,8 +27,8 @@ class App {
     this.httpServer.set('trust proxy', true);
 
     this.httpServer.get('/', (req: Request, res: Response) => {
-      console.log('Welcome to API');
-      res.send('Welcome to API');
+      console.log('Welcome to API!');
+      res.send('Welcome to API!');
     });
 
     // this.httpServer.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
