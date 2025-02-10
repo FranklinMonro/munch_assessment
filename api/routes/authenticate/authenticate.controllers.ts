@@ -14,7 +14,7 @@ const postRegisterUser = async (req: Request, res: Response, next: NextFunction)
     const { email, password, name, surname, role } = req.body;
     const userFind = await users.findOne({ where: { email } });
     if (userFind) {
-      res.status(401).send('User with that email already exists');
+      res.status(401).send('User already exists');
       return;
     }
     const hashedPassword = hashSync(password, BRCRYPT_SALT);
@@ -33,7 +33,7 @@ const postRegisterUser = async (req: Request, res: Response, next: NextFunction)
       res.status(422).send('User not created');
       return;
     } 
-    res.status(201);
+    res.status(201).send(createUser);
   } catch (error) {
     log.log('error', `URL ${req.baseUrl}, error: ${error}`);
     next(error);
@@ -42,19 +42,25 @@ const postRegisterUser = async (req: Request, res: Response, next: NextFunction)
 
 const postLoginUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    
     const { email, password } = req.body;
     const user = await users.findOne({ where: { email } });
     if (!user) {
-      res.status(401).send('User not found');
+      console.log('user not found');
+      res.status(422).send('User not found');
       return;
     }
     if (!compareSync(password, user.password)) {
-      res.status(401).send('Invalid password');
+      console.log('invalid details');
+      res.status(401).send('Invalid details');
       return;
     }
-    const token = jwtTokenSign(user.id);
-    res.status(200).send(token);
+
+    res.status(200).send({
+      name: user.name,
+      surname: user.surname,
+      jwtToken: await jwtTokenSign(user.id),
+      expiresIn: JWT_TOKEN_EXPIRATION,
+    });
   } catch (error) {
     log.log('error', `URL ${req.baseUrl}, error: ${error}`);
     next(error);

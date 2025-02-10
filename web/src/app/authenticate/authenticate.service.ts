@@ -54,7 +54,7 @@ export class AuthService {
     const expirationDate = DateTime.fromMillis(expiresIn);
     const user = new User(name, surname, jwtToken, expirationDate);
     this.user.next(user);
-    this.autoLogOut(expiresIn);
+    // this.autoLogOut(expiresIn);
     localStorage.setItem('authData', JSON.stringify(user));
   };
 
@@ -78,7 +78,7 @@ export class AuthService {
     if (loadedUser.token) {
       this.user.next(loadedUser);
       const expirationDifference = DateTime.fromISO(userData._tokenExpirationDate.toLocaleString()).diff(DateTime.now()).toMillis();
-      this.autoLogOut(expirationDifference);
+      // this.autoLogOut(expirationDifference);
     }
   }
 

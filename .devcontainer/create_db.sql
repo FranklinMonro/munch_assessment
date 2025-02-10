@@ -105,7 +105,7 @@ ALTER TABLE public.products OWNER TO postgres;
 CREATE TABLE public.users (
     id uuid NOT NULL,
     email text NOT NULL,
-    password bytea NOT NULL,
+    password text NOT NULL,
     name text,
     surname text,
     role text DEFAULT 'user'::text NOT NULL,

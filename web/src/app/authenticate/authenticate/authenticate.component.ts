@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { FormsErrorsService } from '../../global-services/forms-errors.service';
 import { AuthService } from '../authenticate.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -50,7 +51,8 @@ export class AuthenticateComponent implements OnInit {
   constructor(
     private readonly formErrorService: FormsErrorsService,
     private readonly authService: AuthService,
-    private readonly toastr: ToastrService
+    private readonly toastr: ToastrService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -94,10 +96,26 @@ export class AuthenticateComponent implements OnInit {
   };
 
   onSubmit(): void {
-    console.log(this.loginForm.value);
     this.loadSpinner = true;
     if (this.loginPage) {
-      
+      this.authService.postLogIn(this.loginForm.value).subscribe({
+        next: () => {
+          this.toastr.success('User logged in successfully', 'SUCCESS');
+          this.router.navigate(['/dashboard']); 
+        },
+        error: (error: Error) => {
+          if (error.message.includes('401') || error.message.includes('422')) {
+            this.toastr.warning('User not found or incorrect', 'WARNING');
+          } else {
+            this.toastr.error(`Error in login, error: ${error.message}`, 'WARNING');
+          }
+          this.loadSpinner = false;
+        },
+        complete: () => {
+          console.info('Logincomplete');
+          this.loadSpinner = false;
+        }
+      });
     } else {  
       this.authService.postUser(this.loginForm.value).subscribe({
         next: () => {
@@ -105,7 +123,12 @@ export class AuthenticateComponent implements OnInit {
           this.loginPage = true;
         },
         error: (error: Error) => {
-          this.toastr.error(`Error in register, error: ${error.message}`, 'WARNING');
+          if (error.message.includes('401')) {
+            this.toastr.warning('User already exists', 'WARNING');
+          } else {
+            this.toastr.error(`Error in register, error: ${error.message}`, 'WARNING');
+          }
+          this.loadSpinner = false;
         },
         complete: () => {
           console.info('Registercomplete');
