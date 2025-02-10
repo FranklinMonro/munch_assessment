@@ -49,11 +49,11 @@ export class InventoryService {
       )
   };
 
-  public patchProduct = (product: Product): Observable<Product> => { 
-    return this.httpClient.patch<Product>(`${environment.apiUrl}/api/products`, product, 
+  public patchProduct = (product: Product): Observable<any> => { 
+    return this.httpClient.patch<any>(`${environment.apiUrl}/api/products`, product, 
       { observe: 'response' }).pipe(
-        map((response: HttpResponse<Product>) => {
-          return response.body!;
+        map((response: HttpResponse<any>) => {
+          return response;
         }),
         catchError((error: HttpErrorResponse) =>  { throw new Error(error.message); }),
       );

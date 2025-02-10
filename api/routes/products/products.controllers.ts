@@ -71,7 +71,7 @@ const patchProducts = async (req: Request, res: Response, next: NextFunction) =>
       res.status(404).send('Product not updated');
     }
 
-    res.status(200).send('Product updated');
+    res.status(200).send(productPatch);
   } catch (error) {
     log.log('error', `URL ${req.baseUrl}, error: ${error}`);
     next(error);

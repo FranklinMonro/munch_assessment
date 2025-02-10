@@ -89,6 +89,7 @@ export class InventoryDialogComponent implements OnInit {
   if (this.isEdit) {
     this.inventoryService.patchProduct(this.productForm.value).subscribe({
       error: (error: Error) => {
+        console.error('Error updating product', error);
         this.toastr.error(`Error updating product, error: ${error.message}`, 'ERROR');
         this.loadSpinner = false;
       },
