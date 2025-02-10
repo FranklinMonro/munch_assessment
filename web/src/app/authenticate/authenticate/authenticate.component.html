@@ -27,6 +27,16 @@
             <mat-icon matSuffix (click)="show = !show">{{ show ? 'visibility_off' : 'visibility' }}</mat-icon>
           </mat-form-field>
         </p>
+        <p>
+          <mat-form-field appearance="fill" class="login-card-content-field">
+            <mat-label>Role</mat-label>
+            <mat-select>
+              @for (role of userRoles; track role) {
+                <mat-option [value]="role.item">{{ role.value }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </p>
       </mat-card-content>
       <div class="login-submit">
         <button type="submit" mat-raised-button  id="login-button">Submit</button>

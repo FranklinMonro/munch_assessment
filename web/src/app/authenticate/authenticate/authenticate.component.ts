@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-authenticate',
@@ -23,6 +24,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   templateUrl: './authenticate.component.html',
   styleUrl: './authenticate.component.scss'
@@ -35,6 +37,11 @@ export class AuthenticateComponent implements OnInit {
   load: boolean = false;
 
   loginPage: boolean = true;
+
+  userRoles = [
+    { item: 'seller', value: 'Seller' },
+    { item: 'buyer', value: 'Buyer' }
+  ]
   constructor() { }
 
   ngOnInit(): void {
