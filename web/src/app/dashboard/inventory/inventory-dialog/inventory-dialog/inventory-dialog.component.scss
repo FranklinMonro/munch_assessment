@@ -2,3 +2,20 @@
   margin-top: 10px;
   margin-left: 8px;
 }
+
+.spinner {
+  position: fixed;
+  z-index: 1031;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#cancel_button {
+  color: red;
+}
+
+#cancel_button:hover {
+  color: white;
+  background-color: red;
+}

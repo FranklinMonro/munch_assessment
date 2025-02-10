@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 
 import { authenticateLogger as log } from '../../server/winstonLog';
 import { BRCRYPT_SALT, JWT_TOKEN_EXPIRATION, SEQUILIZE_NEW } from '../../server/config';
-import { initModels, usersAttributes } from '../../models-init/init-models';
+import { initModels } from '../../models-init/init-models';
 import { jwtTokenSign } from '../../server/jwtToken';
 
 const { users } = initModels(SEQUILIZE_NEW);

@@ -91,6 +91,23 @@ const jwtTokenLogger = createLogger({
   },
 });
 
+const productsLogger = createLogger({
+  transports: [
+    new transports.File({
+      dirname: 'logs',
+      filename: 'productsLogger.log',
+    }),
+  ],
+  format: format.combine(
+    format.timestamp(),
+    format.printf(({
+      timestamp, level, message, service,
+    }) => `[${timestamp}] ${service} ${level}: ${message}`),
+  ),
+  defaultMeta: {
+    service: 'WinstonExample',
+  },
+});
 
 const serverLogger = createLogger({
   transports: [
@@ -116,5 +133,6 @@ export {
   configLogger,
   errorHandlerLogger,
   jwtTokenLogger,
+  productsLogger,
   serverLogger,
 };

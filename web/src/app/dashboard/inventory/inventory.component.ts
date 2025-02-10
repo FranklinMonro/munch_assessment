@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,8 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource} from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { InventoryService, UserData } from './inventory.service';
+import { InventoryService, Product, UserData } from './inventory.service';
 import { InventoryDialogComponent } from './inventory-dialog/inventory-dialog/inventory-dialog.component';
 
 @Component({
@@ -24,30 +25,46 @@ import { InventoryDialogComponent } from './inventory-dialog/inventory-dialog/in
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.scss'
 })
-export class InventoryComponent implements AfterViewInit {
+export class InventoryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData> | undefined;
+  loadSpinner: boolean = false;
+  displayedColumns: string[] = ['name', 'price', 'qty', 'description', 'edit'];
+  dataSource: MatTableDataSource<Product> | undefined;
   readonly dialog = inject(MatDialog);
   constructor(
     private inventoryService: InventoryService
-  ) {
-    // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => this.inventoryService.createNewUser(k + 1));
+  ) {}
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  ngOnInit(): void {
+    this.getList();
   }
 
   ngAfterViewInit() {
     this.dataSource!.paginator = this.paginator!;
     this.dataSource!.sort = this.sort!;
+  }
+
+  getList() {
+    // this.loadSpinner = true;
+    this.inventoryService.getProducts().subscribe({
+      next: (response: Product[]) => {
+        this.dataSource = new MatTableDataSource(response);
+        this.dataSource!.paginator = this.paginator!;
+        this.dataSource!.sort = this.sort!;
+        this.loadSpinner = false;
+      },
+      error: (error) => {
+        console.error(error);
+        this.loadSpinner = false;
+      }
+    })
   }
 
   applyFilter(event: Event) {
@@ -61,10 +78,18 @@ export class InventoryComponent implements AfterViewInit {
     }
   }
 
-  openDialog() {
+  addProduct() {
     this.dialog.open(InventoryDialogComponent, {
       width: '50%',
       height: '60%',
+    });
+  }
+
+  editProduct(product: Product) {
+    this.dialog.open(InventoryDialogComponent, {
+      width: '50%',
+      height: '60%',
+      data: product
     });
   }
 }

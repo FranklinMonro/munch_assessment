@@ -33,7 +33,7 @@ export class InventoryDialogComponent implements OnInit {
   productList: Product[] = [];
   data: Product = inject(MAT_DIALOG_DATA);
   productForm: FormGroup = new FormGroup({});
-
+  isEdit: Boolean = false;
   constructor(
     private readonly inventoryService: InventoryService,
     private readonly formErrorService: FormsErrorsService,
@@ -54,6 +54,11 @@ export class InventoryDialogComponent implements OnInit {
     upsell_from: new FormControl([''], [Validators.required]),
     active: new FormControl(true, [Validators.required]),
   });
+  this.isEdit = false;
+  if (this.data) {
+    this.isEdit = true;
+    this.productForm.patchValue(this.data);
+  }
  }
 
  public getFormError = (formInput: AbstractControl): string => {
@@ -61,13 +66,15 @@ export class InventoryDialogComponent implements OnInit {
    };
 
  onSubmit() {
-  console.log(this.productForm.value);
   this.loadSpinner = true;
   this.inventoryService.postProduct(this.productForm.value).subscribe({
-    next: (response) => {},
     error: (errror: Error) => {
-      console.error(errror);
-      this.toastr.error(`Error adding product, error: ${errror.message}`, 'ERROR');
+      if (errror.message.includes('401')) {
+        this.toastr.warning('Product already exists', 'WARRNING');
+      } else {
+        this.toastr.error(`Error adding product, error: ${errror.message}`, 'ERROR');
+      }
+      this.loadSpinner = false;
     },
     complete: () => {
       console.info('Product added completed');

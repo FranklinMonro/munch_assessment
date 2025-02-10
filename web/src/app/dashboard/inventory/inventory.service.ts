@@ -86,9 +86,19 @@ readonly NAMES: string[] = [
   }
 
   public postProduct = (product: Product): Observable<Product> => {
-    return this.httpClient.post<Product>(`${environment.apiUrl}/api/product`, product, 
+    return this.httpClient.post<Product>(`${environment.apiUrl}/api/products`, product, 
       { observe: 'response' }).pipe(
         map((response: HttpResponse<Product>) => {
+          return response.body!;
+        }),
+        catchError((error: HttpErrorResponse) =>  { throw new Error(error.message); }),
+      );
+  };
+
+  public getProducts = (): Observable<Product[]> => {
+    return this.httpClient.get<Product[]>(`${environment.apiUrl}/api/products`, 
+      { observe: 'response' }).pipe(
+        map((response: HttpResponse<Product[]>) => {
           return response.body!;
         }),
         catchError((error: HttpErrorResponse) =>  { throw new Error(error.message); }),
