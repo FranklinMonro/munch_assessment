@@ -10,7 +10,7 @@ export const routes: Routes = [
     loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent),
     // canActivate: [authGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'inventory', pathMatch: 'full' },
       { path: 'inventory',
         loadComponent: () => import('./dashboard/inventory/inventory.component').then(m => m.InventoryComponent),
       },

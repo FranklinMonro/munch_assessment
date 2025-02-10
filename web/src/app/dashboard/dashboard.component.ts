@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../authenticate/authenticate.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,9 +42,10 @@ export class DashboardComponent {
     { toolTip: 'History', link: 'history', icon: 'history', navName: 'History' },
   ];
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   logOut() {
     console.log('Logging out');
+    this.authService.postLogOut();
   }
 }
