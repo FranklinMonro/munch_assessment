@@ -44,7 +44,7 @@ export class products extends Model<productsAttributes, productsCreationAttribut
       allowNull: false
     },
     price: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.TEXT,
       allowNull: false,
       defaultValue: 0.00
     },

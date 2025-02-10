@@ -84,7 +84,7 @@ ALTER TABLE public.invoices OWNER TO postgres;
 CREATE TABLE public.products (
     id uuid NOT NULL,
     name text NOT NULL,
-    price smallint DEFAULT 0.00 NOT NULL,
+    price text DEFAULT '0.00' NOT NULL,
     description text,
     qty smallint DEFAULT 0 NOT NULL,
     upsells_to text[],

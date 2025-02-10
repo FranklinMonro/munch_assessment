@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { InventoryService, Product, UserData } from './inventory.service';
 import { InventoryDialogComponent } from './inventory-dialog/inventory-dialog/inventory-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-inventory',
@@ -39,7 +40,8 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Product> | undefined;
   readonly dialog = inject(MatDialog);
   constructor(
-    private inventoryService: InventoryService
+    private inventoryService: InventoryService,
+    private readonly toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -47,12 +49,14 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource!.paginator = this.paginator!;
-    this.dataSource!.sort = this.sort!;
+    if (this.paginator) {
+      this.dataSource!.paginator = this.paginator!;
+      this.dataSource!.sort = this.sort!;
+    }
   }
 
   getList() {
-    // this.loadSpinner = true;
+    this.loadSpinner = true;
     this.inventoryService.getProducts().subscribe({
       next: (response: Product[]) => {
         this.dataSource = new MatTableDataSource(response);
@@ -60,10 +64,11 @@ export class InventoryComponent implements OnInit, AfterViewInit {
         this.dataSource!.sort = this.sort!;
         this.loadSpinner = false;
       },
-      error: (error) => {
+      error: (error: Error) => {
         console.error(error);
+        this.toastr.error('Error loading products');
         this.loadSpinner = false;
-      }
+      },
     })
   }
 
@@ -79,17 +84,25 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   }
 
   addProduct() {
-    this.dialog.open(InventoryDialogComponent, {
+    const dialogRef = this.dialog.open(InventoryDialogComponent, {
       width: '50%',
       height: '60%',
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getList();
     });
   }
 
   editProduct(product: Product) {
-    this.dialog.open(InventoryDialogComponent, {
+    const dialogRef = this.dialog.open(InventoryDialogComponent, {
       width: '50%',
       height: '60%',
       data: product
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getList();
     });
   }
 }

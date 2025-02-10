@@ -58,7 +58,20 @@ const getProducts = async (req: Request, res: Response, next: NextFunction) => {
 
 const patchProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('patchProducts');
+    const productPatch = await products.update(req.body, 
+      { where: { 
+        id: req.body.id 
+      } 
+    }).catch((error: Error) => {
+      log.log('error', `URL ${req.baseUrl}, error: ${error}`);
+      throw new Error(error.message);
+    });
+
+    if (productPatch[0] === 0) {
+      res.status(404).send('Product not updated');
+    }
+
+    res.status(200).send('Product updated');
   } catch (error) {
     log.log('error', `URL ${req.baseUrl}, error: ${error}`);
     next(error);

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -38,14 +38,33 @@ export class InventoryDialogComponent implements OnInit {
     private readonly inventoryService: InventoryService,
     private readonly formErrorService: FormsErrorsService,
     private readonly toastr: ToastrService,
+    public dialogRef: MatDialogRef<InventoryDialogComponent>,
   ) { }
   ngOnInit(): void {
     this.createForm();
-    this.productList = this.inventoryService.PRODUCTS;
+    this.getList();
+  }
+
+  getList() {
+    this.loadSpinner = true;
+    this.inventoryService.getProducts().subscribe({
+      next: (response: Product[]) => {
+        this.productList = response;
+      },
+      error: (error) => {
+        console.error(error);
+        this.toastr.error('Error getting products');
+        this.loadSpinner = false;
+      },
+      complete: () => {
+        this.loadSpinner = false;
+      }
+    });
   }
 
  createForm() {
   this.productForm = new FormGroup({
+    id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     price: new FormControl(0, [Validators.required]),
     qty: new FormControl(0, [Validators.required]),
@@ -67,20 +86,36 @@ export class InventoryDialogComponent implements OnInit {
 
  onSubmit() {
   this.loadSpinner = true;
-  this.inventoryService.postProduct(this.productForm.value).subscribe({
-    error: (errror: Error) => {
-      if (errror.message.includes('401')) {
-        this.toastr.warning('Product already exists', 'WARRNING');
-      } else {
-        this.toastr.error(`Error adding product, error: ${errror.message}`, 'ERROR');
+  if (this.isEdit) {
+    this.inventoryService.patchProduct(this.productForm.value).subscribe({
+      error: (error: Error) => {
+        this.toastr.error(`Error updating product, error: ${error.message}`, 'ERROR');
+        this.loadSpinner = false;
+      },
+      complete: () => {
+        console.info('Product updated completed');
+        this.loadSpinner = false;
+        this.toastr.success('Product updated successfully');
+        this.dialogRef!.close(1);
       }
-      this.loadSpinner = false;
-    },
-    complete: () => {
-      console.info('Product added completed');
-      this.loadSpinner = false;
-      this.toastr.success('Product added successfully');
-    }
-  });
+    });
+  } else {
+    this.inventoryService.postProduct(this.productForm.value).subscribe({
+      error: (errror: Error) => {
+        if (errror.message.includes('401')) {
+          this.toastr.warning('Product already exists', 'WARRNING');
+        } else {
+          this.toastr.error(`Error adding product, error: ${errror.message}`, 'ERROR');
+        }
+        this.loadSpinner = false;
+      },
+      complete: () => {
+        console.info('Product added completed');
+        this.loadSpinner = false;
+        this.toastr.success('Product added successfully');
+        this.dialogRef!.close(1);
+      }
+    });
+  }
  }
 }
