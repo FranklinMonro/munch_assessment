@@ -4,6 +4,7 @@ import {
   getProducts, 
   patchProducts, 
   deleteProducts,
+  postBuy,
 } from './products.controllers';
 
 class ProductsRouter {
@@ -17,6 +18,8 @@ class ProductsRouter {
     this.router.patch('', /*jwtTokenVerify,*/ patchProducts);
 
     this.router.delete('', /*jwtTokenVerify,*/ deleteProducts);
+
+    this.router.post('/buy', /*jwtTokenVerify,*/ postBuy);
   }
 }
 

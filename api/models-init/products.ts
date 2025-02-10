@@ -4,31 +4,30 @@ import { DataTypes, Model, Optional } from 'sequelize';
 export interface productsAttributes {
   id: string;
   name: string;
-  price: number;
   description?: string;
   qty: number;
   upsells_to?: string[];
-  upsell_from?: string[];
   active: boolean;
   created_date: Date;
   updated_date: Date;
+  price?: string;
 }
 
 export type productsPk = "id";
 export type productsId = products[productsPk];
-export type productsOptionalAttributes = "price" | "description" | "qty" | "upsells_to" | "created_date" | "updated_date" | "upsell_from";
+export type productsOptionalAttributes = "description" | "qty" | "upsells_to" | "created_date" | "updated_date" | "price";
 export type productsCreationAttributes = Optional<productsAttributes, productsOptionalAttributes>;
 
 export class products extends Model<productsAttributes, productsCreationAttributes> implements productsAttributes {
   id!: string;
   name!: string;
-  price!: number;
   description?: string;
   qty!: number;
   upsells_to?: string[];
   active!: boolean;
   created_date!: Date;
   updated_date!: Date;
+  price?: string;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof products {
@@ -41,11 +40,6 @@ export class products extends Model<productsAttributes, productsCreationAttribut
     name: {
       type: DataTypes.TEXT,
       allowNull: false
-    },
-    price: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: 0.00
     },
     description: {
       type: DataTypes.TEXT,
@@ -74,6 +68,11 @@ export class products extends Model<productsAttributes, productsCreationAttribut
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    price: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: "0.00"
     }
   }, {
     sequelize,
