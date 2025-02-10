@@ -1,0 +1,37 @@
+.spinner {
+  position: fixed;
+  z-index: 1031;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tile_center {
+  text-align: center;
+}
+
+.title_p {
+  height: 45%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 20%;
+}
+
+.dialog_open_btn {
+  margin-top: 2%;
+  margin-left: 2%;
+}
+
+td, th {
+  width: 25%;
+}
+
+#delete_btn {
+  background-color: red;
+}

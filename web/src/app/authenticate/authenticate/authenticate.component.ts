@@ -43,10 +43,6 @@ export class AuthenticateComponent implements OnInit {
 
   loginPage: boolean = true;
 
-  userRoles = [
-    { item: 'seller', value: 'Seller' },
-    { item: 'buyer', value: 'Buyer' }
-  ]
 
   constructor(
     private readonly formErrorService: FormsErrorsService,
@@ -66,7 +62,6 @@ export class AuthenticateComponent implements OnInit {
       confirmPassword: new FormControl('seller123'),
       name: new FormControl('The'),
       surname: new FormControl('Seller'),
-      role: new FormControl('seller')
     });
   }
 
@@ -83,8 +78,8 @@ export class AuthenticateComponent implements OnInit {
       this.loginForm.get('confirmPassword')?.setValidators([Validators.required, this.passwordConfirming.bind(this)]);
       this.loginForm.get('name')?.setValidators([Validators.required]);
       this.loginForm.get('surname')?.setValidators([Validators.required]);
-      this.loginForm.get('role')?.setValidators([Validators.required]);
     } else {
+      this.loginForm.get('confirmPassword')?.clearValidators();
       this.loginForm.get('name')?.clearValidators();
       this.loginForm.get('surname')?.clearValidators();
       this.loginForm.get('role')?.clearValidators();

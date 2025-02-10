@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, Subject } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 
 import { environment }  from '../../../environments/environment.development';
 
@@ -12,13 +12,6 @@ export interface Product {
   description?: string,
   upsells_to?: string[],
   active?: boolean,
-}
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  fruit: string;
 }
 
 @Injectable({

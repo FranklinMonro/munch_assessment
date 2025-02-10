@@ -58,19 +58,6 @@
               }
             </mat-form-field>
           </p>
-          <p>
-            <mat-form-field appearance="fill" class="login-card-content-field">
-              <mat-label>Role</mat-label>
-              <mat-select formControlName="role">
-                @for (role of userRoles; track role) {
-                  <mat-option [value]="role.item">{{ role.value }}</mat-option>
-                }
-              </mat-select>
-              @if (loginForm.get('role')!.invalid && loginForm.get('role')!.touched) {
-                <mat-error class="input-error">{{getFormError(loginForm.get('role')!)}}</mat-error>
-              }
-            </mat-form-field>
-          </p>
         </div>
       </mat-card-content>
       <div class="login-submit">

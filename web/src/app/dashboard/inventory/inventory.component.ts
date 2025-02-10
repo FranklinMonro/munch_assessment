@@ -11,7 +11,7 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { InventoryService, Product, UserData } from './inventory.service';
+import { InventoryService, Product } from './inventory.service';
 import { InventoryDialogComponent } from './inventory-dialog/inventory-dialog/inventory-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 

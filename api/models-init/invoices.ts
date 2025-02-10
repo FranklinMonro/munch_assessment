@@ -6,22 +6,18 @@ export interface invoicesAttributes {
   id: string;
   fk_user_id: string;
   items?: object;
-  pdf?: any;
-  pdf_path?: string;
   invoice_date: Date;
 }
 
 export type invoicesPk = "id";
 export type invoicesId = invoices[invoicesPk];
-export type invoicesOptionalAttributes = "items" | "pdf" | "pdf_path" | "invoice_date";
+export type invoicesOptionalAttributes = "items" | "invoice_date";
 export type invoicesCreationAttributes = Optional<invoicesAttributes, invoicesOptionalAttributes>;
 
 export class invoices extends Model<invoicesAttributes, invoicesCreationAttributes> implements invoicesAttributes {
   id!: string;
   fk_user_id!: string;
   items?: object;
-  pdf?: any;
-  pdf_path?: string;
   invoice_date!: Date;
 
   // invoices belongsTo users via fk_user_id
@@ -49,14 +45,6 @@ export class invoices extends Model<invoicesAttributes, invoicesCreationAttribut
       type: DataTypes.JSONB,
       allowNull: true
     },
-    pdf: {
-      type: DataTypes.BLOB,
-      allowNull: true
-    },
-    pdf_path: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
     invoice_date: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -66,7 +54,6 @@ export class invoices extends Model<invoicesAttributes, invoicesCreationAttribut
     sequelize,
     tableName: 'invoices',
     schema: 'public',
-    hasTrigger: true,
     timestamps: false,
     indexes: [
       {

@@ -47,7 +47,7 @@
             <mat-label>Upsells</mat-label>
             <mat-select multiple placeholder="Select items" formControlName="upsells_to">
               @for (product of productList; track product) {
-                <mat-option [value]="product.id">{{ product.name }}</mat-option>
+                <mat-option [value]="product.id" [disabled]="productForm.get('name')?.value === product.name">{{ product.name }}</mat-option>
               }
             </mat-select>
             @if (productForm.get('upsells_to')!.invalid && productForm.get('upsells_to')!.touched) {

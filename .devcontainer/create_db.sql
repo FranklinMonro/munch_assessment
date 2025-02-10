@@ -68,8 +68,6 @@ CREATE TABLE public.invoices (
     id uuid NOT NULL,
     fk_user_id uuid NOT NULL,
     items jsonb,
-    pdf bytea,
-    pdf_path text,
     invoice_date timestamp with time zone DEFAULT now() NOT NULL
 );
 
@@ -172,7 +170,7 @@ CREATE INDEX users_idx_id ON public.users USING btree (id);
 -- Name: invoices update_last_change; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER update_last_change BEFORE INSERT OR UPDATE ON public.invoices FOR EACH ROW EXECUTE FUNCTION public.update_last_change();
+-- CREATE TRIGGER update_last_change BEFORE INSERT OR UPDATE ON public.invoices FOR EACH ROW EXECUTE FUNCTION public.update_last_change();
 
 
 --

@@ -11,13 +11,6 @@
   <mat-sidenav-container class="home-sidenav-container" autosize>
     <mat-sidenav #sidenav [ngClass]="isExpanded ? 'home-sidenav-open' : 'home-sidenav-close'" mode="side" opened="true">
       <mat-nav-list>
-        <mat-list-item class="nav-list-item">
-          <div class="icon-text" matTooltip="Home" routerLink="/dashboard" routerLinkActive="home-nav-link-active" [routerLinkActiveOptions]="{exact: true}">
-            <mat-icon >home</mat-icon>
-            &nbsp;
-            <span *ngIf="isExpanded || isShowing">Home</span>
-          </div>
-        </mat-list-item>
         <mat-list-item class="nav-list-item" *ngFor="let nav of navItems">
           <div class="icon-text" [matTooltip]="nav.toolTip" [routerLink]="nav.link" routerLinkActive="home-nav-link-active">
             <mat-icon>{{ nav.icon }}</mat-icon>

@@ -36,9 +36,9 @@ export class DashboardComponent {
   surnName: String | undefined;
 
   navItems = [
-    { role: ['seller'], toolTip: 'Invetory', link: 'inventory', icon: 'inventory_2', navName: 'Invetory' },
-    { role: ['seller', 'buyer'], toolTip: 'Store', link: 'store', icon: 'storefront', navName: 'Store' },
-    { role: ['seller', 'buyer'], toolTip: 'History', link: 'history', icon: 'history', navName: 'History' },
+    { toolTip: 'Invetory', link: 'inventory', icon: 'inventory_2', navName: 'Invetory' },
+    { toolTip: 'Store', link: 'store', icon: 'storefront', navName: 'Store' },
+    { toolTip: 'History', link: 'history', icon: 'history', navName: 'History' },
   ];
 
   constructor() {}
