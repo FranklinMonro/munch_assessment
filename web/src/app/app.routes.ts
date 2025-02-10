@@ -7,7 +7,19 @@ export const routes: Routes = [
     loadComponent: () => import('./authenticate/authenticate/authenticate.component').then(m => m.AuthenticateComponent) 
   },
   { path: 'dashboard',
-    loadComponent: () => import('./dashboard/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent),
+    // canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'inventory',
+        loadComponent: () => import('./dashboard/inventory/inventory.component').then(m => m.InventoryComponent),
+      },
+      { path: 'store',
+        loadComponent: () => import('./dashboard/store/store.component').then(m => m.StoreComponent),
+      },
+      { path: 'history',
+        loadComponent: () => import('./dashboard/history/history.component').then(m => m.HistoryComponent),
+      }
+    ]
   }
 ];

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthLogIn } from '../../authenticate/authenticate.interface';
+import { AuthLogIn } from '../authenticate/authenticate.interface';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,10 +36,9 @@ export class DashboardComponent {
   surnName: String | undefined;
 
   navItems = [
-    { role: 'seller', toolTip: 'Invetory', link: 'users', icon: 'inventory_2', navName: 'Invetory' },
-    { role: 'seller', toolTip: 'Sell', link: 'learning', icon: 'storefront', navName: 'Sell' },
-    { toolTip: 'History', link: 'calendar', icon: 'history', navName: 'History' },
-    { role: 'buyer', toolTip: 'Buy', link: 'matrix', icon: 'local_mall', navName: 'Buy' },
+    { role: ['seller'], toolTip: 'Invetory', link: 'inventory', icon: 'inventory_2', navName: 'Invetory' },
+    { role: ['seller', 'buyer'], toolTip: 'Store', link: 'store', icon: 'storefront', navName: 'Store' },
+    { role: ['seller', 'buyer'], toolTip: 'History', link: 'history', icon: 'history', navName: 'History' },
   ];
 
   constructor() {}
