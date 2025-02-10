@@ -16,8 +16,11 @@
       <mat-card-content>
         <p>
           <mat-form-field appearance="fill" class="login-card-content-field">
-            <mat-label>Username</mat-label>
-            <input matInput placeholder="Username" formControlName="userName">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email">
+            @if (loginForm.get('email')!.invalid && loginForm.get('email')!.touched) {
+              <mat-error class="input-error">{{getFormError(loginForm.get('email')!)}}</mat-error>
+            }
           </mat-form-field>
         </p>
         <p>
@@ -25,23 +28,59 @@
             <mat-label>Password</mat-label>
             <input matInput placeholder="Password" formControlName="password" [type]="show ? 'text' : 'password'">
             <mat-icon matSuffix (click)="show = !show">{{ show ? 'visibility_off' : 'visibility' }}</mat-icon>
+            @if (loginForm.get('password')!.invalid && loginForm.get('password')!.touched) {
+              <mat-error class="input-error">{{getFormError(loginForm.get('password')!)}}</mat-error>
+            }            
           </mat-form-field>
         </p>
-        <p>
-          <mat-form-field appearance="fill" class="login-card-content-field">
-            <mat-label>Role</mat-label>
-            <mat-select>
-              @for (role of userRoles; track role) {
-                <mat-option [value]="role.item">{{ role.value }}</mat-option>
+        <div *ngIf="!loginPage">
+          <p>
+            <mat-form-field appearance="fill" class="login-card-content-field">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput placeholder="Confirm Password" formControlName="confirmPassword" [type]="show ? 'text' : 'password'">
+              <mat-icon matSuffix (click)="show = !show">{{ show ? 'visibility_off' : 'visibility' }}</mat-icon>
+              @if (loginForm.get('confirmPassword')!.invalid && loginForm.get('confirmPassword')!.touched) {
+                <mat-error class="input-error">{{getFormError(loginForm.get('confirmPassword')!)}}</mat-error>
               }
-            </mat-select>
-          </mat-form-field>
-        </p>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="fill" class="login-card-content-field">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Username" formControlName="name">
+              @if (loginForm.get('name')!.invalid && loginForm.get('name')!.touched) {
+                <mat-error class="input-error">{{getFormError(loginForm.get('name')!)}}</mat-error>
+              }
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="fill" class="login-card-content-field">
+              <mat-label>Surname</mat-label>
+              <input matInput placeholder="Surname" formControlName="surname">
+              @if (loginForm.get('surname')!.invalid && loginForm.get('surname')!.touched) {
+                <mat-error class="input-error">{{getFormError(loginForm.get('surname')!)}}</mat-error>
+              }
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="fill" class="login-card-content-field">
+              <mat-label>Role</mat-label>
+              <mat-select formControlName="role">
+                @for (role of userRoles; track role) {
+                  <mat-option [value]="role.item">{{ role.value }}</mat-option>
+                }
+              </mat-select>
+              @if (loginForm.get('role')!.invalid && loginForm.get('role')!.touched) {
+                <mat-error class="input-error">{{getFormError(loginForm.get('role')!)}}</mat-error>
+              }
+            </mat-form-field>
+          </p>
+        </div>
       </mat-card-content>
       <div class="login-submit">
         <button type="submit" mat-raised-button  id="login-button">Submit</button>
         &nbsp;
-        <button type="button" mat-raised-button (click)="loginPage = !loginPage">{{ loginPage ? 'Register' : 'Login' }}</button>
+        <button type="button" mat-raised-button (click)="togglePages()">{{ loginPage ? 'Register' : 'Login' }}</button>
       </div>
     </div>
   </mat-card>
