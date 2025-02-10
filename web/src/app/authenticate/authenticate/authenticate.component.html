@@ -1,0 +1,38 @@
+
+<div class="login-image">
+  <img src="../../assets/images/ag-logo.png" alt="">
+</div>
+
+<form *ngIf="loginForm" (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+  <div class="login-card-header-font">
+    <p class="login-card-header-font-dash">POS</p>
+  </div>
+  <mat-card class="login-card" >
+    <mat-spinner class="login-spinner" *ngIf="load"></mat-spinner>
+    <div *ngIf="!load">
+      <mat-card-header>
+        <mat-card-title>{{ loginPage ? 'Login Page' : 'Register Page' }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field appearance="fill" class="login-card-content-field">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" formControlName="userName">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill" class="login-card-content-field">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" formControlName="password" [type]="show ? 'text' : 'password'">
+            <mat-icon matSuffix (click)="show = !show">{{ show ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+      <div class="login-submit">
+        <button type="submit" mat-raised-button  id="login-button">Submit</button>
+        &nbsp;
+        <button type="button" mat-raised-button (click)="loginPage = !loginPage">{{ loginPage ? 'Register' : 'Login' }}</button>
+      </div>
+    </div>
+  </mat-card>
+</form>
