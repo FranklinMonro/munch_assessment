@@ -127,6 +127,24 @@ const serverLogger = createLogger({
   },
 });
 
+const swaggerLogger = createLogger({
+  transports: [
+    new transports.File({
+      dirname: 'logs',
+      filename: 'swaggerLogger.log',
+    }),
+  ],
+  format: format.combine(
+    format.timestamp(),
+    format.printf(({
+      timestamp, level, message, service,
+    }) => `[${timestamp}] ${service} ${level}: ${message}`),
+  ),
+  defaultMeta: {
+    service: 'WinstonExample',
+  },
+});
+
 export {
   appLogger,
   authenticateLogger,
@@ -134,5 +152,5 @@ export {
   errorHandlerLogger,
   jwtTokenLogger,
   productsLogger,
-  serverLogger,
+  swaggerLogger,
 };
