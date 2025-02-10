@@ -152,5 +152,6 @@ export {
   errorHandlerLogger,
   jwtTokenLogger,
   productsLogger,
+  serverLogger,
   swaggerLogger,
 };
