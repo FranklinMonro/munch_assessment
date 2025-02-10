@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Products API",
+    "version": "1.0.0",
+    "description": "API for managing products"
+  },
+  "paths": {
+    "/products": {
+      "post": {
+        "summary": "Create a new product",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "price": { "type": "number" },
+                  "qty": { "type": "integer" },
+                  "description": { "type": "string" },
+                  "upsells_to": { "type": "array", "items": { "type": "string" } },
+                  "active": { "type": "boolean" }
+                },
+                "required": ["name", "price", "qty"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Product created successfully" },
+          "401": { "description": "Product already exists" }
+        }
+      },
+      "get": {
+        "summary": "Get all products",
+        "responses": {
+          "200": { "description": "List of products" }
+        }
+      },
+      "patch": {
+        "summary": "Update a product",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" },
+                  "price": { "type": "number" },
+                  "qty": { "type": "integer" },
+                  "description": { "type": "string" },
+                  "upsells_to": { "type": "array", "items": { "type": "string" } },
+                  "active": { "type": "boolean" }
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Product updated successfully" },
+          "404": { "description": "Product not updated" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a product",
+        "responses": {
+          "200": { "description": "Product deleted successfully" }
+        }
+      }
+    },
+    "/products/buy": {
+      "post": {
+        "summary": "Buy products",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "qty": { "type": "integer" },
+                    "upsells_to": { "type": "array", "items": { "type": "string" } }
+                  },
+                  "required": ["id", "qty"]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Invoice created successfully" }
+        }
+      }
+    },
+    "/products/history": {
+      "get": {
+        "summary": "Get purchase history",
+        "responses": {
+          "200": { "description": "List of purchase history" }
+        }
+      }
+    }
+  }
+}
