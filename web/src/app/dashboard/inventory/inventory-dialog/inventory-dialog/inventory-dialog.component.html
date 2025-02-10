@@ -44,7 +44,7 @@
       @if (productList.length > 0) {
         <div class="input-container">
           <mat-form-field appearance="outline">
-            <mat-label>Upsells to</mat-label>
+            <mat-label>Upsells</mat-label>
             <mat-select multiple placeholder="Select items" formControlName="upsells_to">
               @for (product of productList; track product) {
                 <mat-option [value]="product.id">{{ product.name }}</mat-option>
@@ -55,17 +55,6 @@
             }   
           </mat-form-field>
          
-          <mat-form-field appearance="outline">
-            <mat-label>Upsells from</mat-label>
-            <mat-select multiple placeholder="Select items" formControlName="upsell_from">
-              @for (product of productList; track product) {
-                <mat-option [value]="product.id">{{ product.name }}</mat-option>
-              }
-            </mat-select>
-            @if (productForm.get('upsell_from')!.invalid && productForm.get('upsell_from')!.touched) {
-              <mat-error class="input-error">{{getFormError(productForm.get('upsell_from')!)}}</mat-error>
-            }   
-          </mat-form-field>
         </div>
       }
       <div class="input-container">

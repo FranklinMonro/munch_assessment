@@ -11,7 +11,6 @@ export interface Product {
   qty?: number,
   description?: string,
   upsells_to?: string[],
-  upsell_from?: string[],
   active?: boolean,
 }
 

@@ -70,7 +70,6 @@ export class InventoryDialogComponent implements OnInit {
     qty: new FormControl(0, [Validators.required]),
     description: new FormControl('', [Validators.required]),
     upsells_to: new FormControl(['']),
-    upsell_from: new FormControl([''], [Validators.required]),
     active: new FormControl(true, [Validators.required]),
   });
   this.isEdit = false;

@@ -29,7 +29,6 @@ export class products extends Model<productsAttributes, productsCreationAttribut
   active!: boolean;
   created_date!: Date;
   updated_date!: Date;
-  upsell_from?: string[];
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof products {
@@ -58,10 +57,6 @@ export class products extends Model<productsAttributes, productsCreationAttribut
       defaultValue: 0
     },
     upsells_to: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
-      allowNull: true
-    },
-    upsell_from: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true
     },
