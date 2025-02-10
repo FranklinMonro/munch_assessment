@@ -5,6 +5,7 @@ import {
   patchProducts, 
   deleteProducts,
   postBuy,
+  getHistory,
 } from './products.controllers';
 
 class ProductsRouter {
@@ -20,6 +21,8 @@ class ProductsRouter {
     this.router.delete('', /*jwtTokenVerify,*/ deleteProducts);
 
     this.router.post('/buy', /*jwtTokenVerify,*/ postBuy);
+
+    this.router.get('/history', /*jwtTokenVerify,*/ getHistory);
   }
 }
 

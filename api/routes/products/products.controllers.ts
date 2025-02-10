@@ -140,10 +140,30 @@ const postBuy = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getHistory = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const historyFindAll = await invoices.findAll(
+      { 
+        where: { 
+          fk_user_id: 'ab382623-e790-40bd-b892-d33f642380d9' 
+        } 
+      }
+    ).catch((error: Error) => {
+      log.log('error', `URL ${req.baseUrl}, error: ${error}`);
+      throw new Error(error.message);
+    });
+    res.status(200).send(historyFindAll);
+  } catch (error) {
+    log.log('error', `URL ${req.baseUrl}, error: ${error}`);
+    next(error);
+  }
+};
+
 export {
   postProducts,
   getProducts,
   patchProducts,
   deleteProducts,
   postBuy,
+  getHistory,
 };

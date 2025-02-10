@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Invoice Items</h2>
+<mat-dialog-content>
+
+  <ul>
+    @for (item of data; track item.name) {
+      <li>name: {{ item.name }} qty: {{item.qty}}</li>
+      } @empty {
+      <li>There are no items.</li>
+      }
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
