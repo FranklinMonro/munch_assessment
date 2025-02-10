@@ -5,30 +5,30 @@ import type { invoices, invoicesId } from './invoices';
 export interface usersAttributes {
   id: string;
   email: string;
-  password: any;
   name?: string;
   surname?: string;
-  role: number;
   active: boolean;
   created_date: Date;
   updated_date: Date;
+  role?: string;
+  password: string;
 }
 
 export type usersPk = "id";
 export type usersId = users[usersPk];
-export type usersOptionalAttributes = "name" | "surname" | "role" | "created_date" | "updated_date";
+export type usersOptionalAttributes = "name" | "surname" | "created_date" | "updated_date" | "role";
 export type usersCreationAttributes = Optional<usersAttributes, usersOptionalAttributes>;
 
 export class users extends Model<usersAttributes, usersCreationAttributes> implements usersAttributes {
   id!: string;
   email!: string;
-  password!: any;
   name?: string;
   surname?: string;
-  role!: number;
   active!: boolean;
   created_date!: Date;
   updated_date!: Date;
+  role?: string;
+  password!: string;
 
   // users hasMany invoices via fk_user_id
   invoices!: invoices[];
@@ -54,10 +54,6 @@ export class users extends Model<usersAttributes, usersCreationAttributes> imple
       type: DataTypes.TEXT,
       allowNull: false
     },
-    password: {
-      type: DataTypes.BLOB,
-      allowNull: false
-    },
     name: {
       type: DataTypes.TEXT,
       allowNull: true
@@ -65,11 +61,6 @@ export class users extends Model<usersAttributes, usersCreationAttributes> imple
     surname: {
       type: DataTypes.TEXT,
       allowNull: true
-    },
-    role: {
-      type: DataTypes.SMALLINT,
-      allowNull: false,
-      defaultValue: 0
     },
     active: {
       type: DataTypes.BOOLEAN,
@@ -85,6 +76,14 @@ export class users extends Model<usersAttributes, usersCreationAttributes> imple
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: Sequelize.Sequelize.fn('now')
+    },
+    role: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    password: {
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, {
     sequelize,

@@ -7,8 +7,8 @@ export interface productsAttributes {
   price: number;
   description?: string;
   qty: number;
-  upsells_lins?: string[];
-  upsell_fk_id?: string;
+  upsells_to?: string[];
+  upsell_from?: string[];
   active: boolean;
   created_date: Date;
   updated_date: Date;
@@ -16,7 +16,7 @@ export interface productsAttributes {
 
 export type productsPk = "id";
 export type productsId = products[productsPk];
-export type productsOptionalAttributes = "price" | "description" | "qty" | "upsells_lins" | "upsell_fk_id" | "created_date" | "updated_date";
+export type productsOptionalAttributes = "price" | "description" | "qty" | "upsells_to" | "created_date" | "updated_date" | "upsell_from";
 export type productsCreationAttributes = Optional<productsAttributes, productsOptionalAttributes>;
 
 export class products extends Model<productsAttributes, productsCreationAttributes> implements productsAttributes {
@@ -25,11 +25,11 @@ export class products extends Model<productsAttributes, productsCreationAttribut
   price!: number;
   description?: string;
   qty!: number;
-  upsells_lins?: string[];
-  upsell_fk_id?: string;
+  upsells_to?: string[];
   active!: boolean;
   created_date!: Date;
   updated_date!: Date;
+  upsell_from?: string[];
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof products {
@@ -57,12 +57,12 @@ export class products extends Model<productsAttributes, productsCreationAttribut
       allowNull: false,
       defaultValue: 0
     },
-    upsells_lins: {
+    upsells_to: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true
     },
-    upsell_fk_id: {
-      type: DataTypes.UUID,
+    upsell_from: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true
     },
     active: {

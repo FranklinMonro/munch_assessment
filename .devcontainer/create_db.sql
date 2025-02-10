@@ -87,8 +87,8 @@ CREATE TABLE public.products (
     price smallint DEFAULT 0.00 NOT NULL,
     description text,
     qty smallint DEFAULT 0 NOT NULL,
-    upsells_lins text[],
-    upsell_fk_id uuid,
+    upsells_to text[],
+    upsell_from text[],
     active boolean DEFAULT false NOT NULL,
     created_date timestamp with time zone DEFAULT now() NOT NULL,
     updated_date timestamp with time zone DEFAULT now() NOT NULL
