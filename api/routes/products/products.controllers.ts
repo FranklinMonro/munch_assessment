@@ -127,7 +127,7 @@ const postBuy = async (req: Request, res: Response, next: NextFunction) => {
     });
     const createInvoice = await invoices.create({
       id: randomUUID(),
-      fk_user_id: 'ab382623-e790-40bd-b892-d33f642380d9',
+      fk_user_id: req.userID!,
       items: productsBuy,
     }).catch((error: Error) => {
       log.log('error', `URL ${req.baseUrl}, error: ${error}`);
@@ -145,7 +145,7 @@ const getHistory = async (req: Request, res: Response, next: NextFunction) => {
     const historyFindAll = await invoices.findAll(
       { 
         where: { 
-          fk_user_id: 'ab382623-e790-40bd-b892-d33f642380d9' 
+          fk_user_id: req.userID
         } 
       }
     ).catch((error: Error) => {
