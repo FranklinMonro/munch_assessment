@@ -1,15 +1,46 @@
 import { Request, Response, NextFunction } from 'express';
-import { compareSync } from 'bcrypt';
+import { hashSync, compareSync } from 'bcrypt';
+import { randomUUID } from 'crypto';
 
 import { authenticateLogger as log } from '../../server/winstonLog';
-import { JWT_TOKEN_EXPIRATION, SEQUILIZE_NEW } from '../../server/config';
+import { BRCRYPT_SALT, JWT_TOKEN_EXPIRATION, SEQUILIZE_NEW } from '../../server/config';
 import { initModels, usersAttributes } from '../../models-init/init-models';
 import { jwtTokenSign } from '../../server/jwtToken';
 
-
 const { users } = initModels(SEQUILIZE_NEW);
 
-const postLogInUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const postRegisterUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { email, password, name, surname, role } = req.body;
+    const userFind = await users.findOne({ where: { email } });
+    if (userFind) {
+      res.status(401).send('User with that email already exists');
+      return;
+    }
+    const hashedPassword = hashSync(password, BRCRYPT_SALT);
+
+    const createUser = await users.create({
+      id: randomUUID(),
+      email,
+      password: hashedPassword,
+      name,
+      surname,
+      role,
+      active: true,
+    });
+   
+    if (!createUser) {
+      res.status(422).send('User not created');
+      return;
+    } 
+    res.status(201);
+  } catch (error) {
+    log.log('error', `URL ${req.baseUrl}, error: ${error}`);
+    next(error);
+  }
+};
+
+const postLoginUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     
     const { email, password } = req.body;
@@ -40,6 +71,7 @@ const postLogOutUser = async (req: Request, res: Response, next: NextFunction): 
 };
 
 export {
-  postLogInUser,
+  postRegisterUser,
+  postLoginUser,
   postLogOutUser,
 }

@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { appLogger as log, errorHandlerLogger as errorLog } from './winstonLog';
 // import swaggerConfig from '../swagger/swaggerConfig';
 
+import AuthenticateRouter from '../routes/authenticate/authenticate.routes';
 
 class App {
   public httpServer = express();
@@ -14,7 +15,7 @@ class App {
 
     this.httpServer.use(urlencoded({ extended: true, limit: '500mb' }));
     this.httpServer.use((req: Request, res: Response, next: NextFunction) => {
-      res.header('Access-Control-Allow-Origin', 'http://localhost:4401');
+      res.header('Access-Control-Allow-Origin', '*');
       res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Authorization, X-CSRFToken, X-Authorization',
@@ -32,6 +33,8 @@ class App {
     });
 
     // this.httpServer.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+
+    this.httpServer.use('/api/authenticate', AuthenticateRouter);
 
     this.httpServer.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       console.log(`error in url ${req.originalUrl} - error: ${err}`);

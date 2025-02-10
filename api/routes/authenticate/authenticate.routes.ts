@@ -1,11 +1,13 @@
 import express from 'express';
-import { postLogInUser, postLogOutUser } from './authenticate.controllers';
+import { postRegisterUser, postLoginUser, postLogOutUser } from './authenticate.controllers';
 
 class AuthenticateRouter {
   public router = express.Router();
 
   constructor() {
-    this.router.post('/login', postLogInUser);
+    this.router.post('/register', postRegisterUser);
+
+    this.router.post('/login', postLoginUser);
 
     this.router.post('/logout', postLogOutUser);
 

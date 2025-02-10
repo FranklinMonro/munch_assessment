@@ -11,7 +11,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { FormsErrorsService } from '../../global-services/forms-errors.service';
+import { AuthService } from '../authenticate.service';
+
 
 @Component({
   selector: 'app-authenticate',
@@ -34,7 +38,7 @@ export class AuthenticateComponent implements OnInit {
 
   show: boolean = false;
 
-  load: boolean = false;
+  loadSpinner: boolean = false;
 
   loginPage: boolean = true;
 
@@ -44,7 +48,9 @@ export class AuthenticateComponent implements OnInit {
   ]
 
   constructor(
-    private readonly formErrorService: FormsErrorsService
+    private readonly formErrorService: FormsErrorsService,
+    private readonly authService: AuthService,
+    private readonly toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -53,12 +59,12 @@ export class AuthenticateComponent implements OnInit {
 
   createForm(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl(''),
-      name: new FormControl(''),
-      surname: new FormControl(''),
-      role: new FormControl('')
+      email: new FormControl('test@seller.com', [Validators.required, Validators.email]),
+      password: new FormControl('seller123', [Validators.required]),
+      confirmPassword: new FormControl('seller123'),
+      name: new FormControl('The'),
+      surname: new FormControl('Seller'),
+      role: new FormControl('seller')
     });
   }
 
@@ -89,5 +95,23 @@ export class AuthenticateComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.loginForm.value);
+    this.loadSpinner = true;
+    if (this.loginPage) {
+      
+    } else {  
+      this.authService.postUser(this.loginForm.value).subscribe({
+        next: () => {
+          this.toastr.success('User registered successfully', 'SUCCESS');
+          this.loginPage = true;
+        },
+        error: (error: Error) => {
+          this.toastr.error(`Error in register, error: ${error.message}`, 'WARNING');
+        },
+        complete: () => {
+          console.info('Registercomplete');
+          this.loadSpinner = false;
+        }
+      });
+    }
   }
 }

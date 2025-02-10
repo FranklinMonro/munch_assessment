@@ -108,7 +108,7 @@ CREATE TABLE public.users (
     password bytea NOT NULL,
     name text,
     surname text,
-    role smallint DEFAULT 0 NOT NULL,
+    role text DEFAULT 'user'::text NOT NULL,
     active boolean DEFAULT false NOT NULL,
     created_date timestamp with time zone DEFAULT now() NOT NULL,
     updated_date timestamp with time zone DEFAULT now() NOT NULL

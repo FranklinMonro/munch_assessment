@@ -1,6 +1,6 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, catchError, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs';
 
 import { AuthLogIn, User } from './authenticate.interface';
 import { environment }  from '../../environments/environment.development';
@@ -17,6 +17,17 @@ export class AuthService {
   
   constructor(private httpClient: HttpClient, private router: Router) {
   }
+
+  public postUser = (user: AuthLogIn): Observable<AuthLogIn> => {
+    return this.httpClient.post<AuthLogIn>(`${environment.apiUrl}/api/authenticate/register`, user, 
+    { observe: 'response' }).pipe(
+      map((response: HttpResponse<AuthLogIn>) => {
+        return response.body!;
+      }),
+      catchError((error: HttpErrorResponse) =>  { throw new Error(error.message); }),
+    );
+  };
+
 
   public postLogIn = (loginForm: AuthLogIn): Observable<any> => {
     return this.httpClient.post<AuthLogIn>(`${environment.apiUrl}/api/authenticate/login`, loginForm, { observe: 'response' }).pipe(

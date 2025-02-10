@@ -3,9 +3,11 @@ import { DateTime } from 'luxon';
 export interface AuthLogIn {
   id?: string;
   email?: string;
-  role?: string;
+  password?: string;
+  confirmPassword?: string;
   name?: string,
   surname?: string,
+  role?: string;
   jwtToken?: string;
   expiresIn?: number;
 }

@@ -8,8 +8,8 @@
     <p class="login-card-header-font-dash">POS</p>
   </div>
   <mat-card class="login-card" >
-    <mat-spinner class="login-spinner" *ngIf="load"></mat-spinner>
-    <div *ngIf="!load">
+    <mat-spinner class="login-spinner" *ngIf="loadSpinner"></mat-spinner>
+    <div *ngIf="!loadSpinner">
       <mat-card-header>
         <mat-card-title>{{ loginPage ? 'Login Page' : 'Register Page' }}</mat-card-title>
       </mat-card-header>
