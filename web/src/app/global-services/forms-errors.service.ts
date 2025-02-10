@@ -15,7 +15,6 @@ export class FormsErrorsService {
   public formErrorInput = (inputError: object): string => {
     const inputErrorKey = Object.keys(inputError)[0];
     const inputErrorValue = Object.values(inputError)[0];
-    console.log('formErrorInput', inputErrorKey, inputErrorValue)
     let errorMessaage: string = '';
     switch (inputErrorKey) {
       case 'required':

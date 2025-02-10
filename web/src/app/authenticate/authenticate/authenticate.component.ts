@@ -112,7 +112,7 @@ export class AuthenticateComponent implements OnInit {
           this.loadSpinner = false;
         },
         complete: () => {
-          console.info('Logincomplete');
+          console.info('Login completed');
           this.loadSpinner = false;
         }
       });
@@ -131,7 +131,7 @@ export class AuthenticateComponent implements OnInit {
           this.loadSpinner = false;
         },
         complete: () => {
-          console.info('Registercomplete');
+          console.info('Register completed');
           this.loadSpinner = false;
         }
       });

@@ -1,5 +1,82 @@
-<h2 mat-dialog-title>Dialog with elements</h2>
-<mat-dialog-content>This dialog showcases the title, close, content and actions elements.</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<h2 mat-dialog-title>Add a product</h2>
+@if (loadSpinner) {
+  <mat-spinner class="login-spinner"></mat-spinner>
+}
+
+@if(!loadSpinner) {
+  <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
+    <mat-dialog-content>
+      <br>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Name"  formControlName="name"/>
+          @if (productForm.get('name')!.invalid && productForm.get('name')!.touched) {
+            <mat-error class="input-error">{{getFormError(productForm.get('name')!)}}</mat-error>
+          }   
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input matInput placeholder="Price" formControlName="price"/>
+          @if (productForm.get('price')!.invalid && productForm.get('price')!.touched) {
+            <mat-error class="input-error">{{getFormError(productForm.get('price')!)}}</mat-error>
+          }     
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Qty</mat-label>
+          <input matInput placeholder="Qty"  formControlName="qty"/>
+          @if (productForm.get('qty')!.invalid && productForm.get('qty')!.touched) {
+            <mat-error class="input-error">{{getFormError(productForm.get('qty')!)}}</mat-error>
+          }   
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <input matInput placeholder="Description" formControlName="description"/>
+          @if (productForm.get('description')!.invalid && productForm.get('description')!.touched) {
+            <mat-error class="input-error">{{getFormError(productForm.get('description')!)}}</mat-error>
+          }     
+        </mat-form-field>
+      </div>
+      @if (productList.length > 0) {
+        <div class="input-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Upsells to</mat-label>
+            <mat-select multiple placeholder="Select items" formControlName="upsells_to">
+              @for (product of productList; track product) {
+                <mat-option [value]="product.id">{{ product.name }}</mat-option>
+              }
+            </mat-select>
+            @if (productForm.get('upsells_to')!.invalid && productForm.get('upsells_to')!.touched) {
+              <mat-error class="input-error">{{getFormError(productForm.get('upsells_to')!)}}</mat-error>
+            }   
+          </mat-form-field>
+         
+          <mat-form-field appearance="outline">
+            <mat-label>Upsells from</mat-label>
+            <mat-select multiple placeholder="Select items" formControlName="upsell_from">
+              @for (product of productList; track product) {
+                <mat-option [value]="product.id">{{ product.name }}</mat-option>
+              }
+            </mat-select>
+            @if (productForm.get('upsell_from')!.invalid && productForm.get('upsell_from')!.touched) {
+              <mat-error class="input-error">{{getFormError(productForm.get('upsell_from')!)}}</mat-error>
+            }   
+          </mat-form-field>
+        </div>
+      }
+      <div class="input-container">
+        <mat-checkbox formControlName="active">Active</mat-checkbox>
+        @if (productForm.get('active')!.invalid && productForm.get('active')!.touched) {
+          <mat-error class="input-error">{{getFormError(productForm.get('active')!)}}</mat-error>
+        }
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button type="submit" mat-button mat-dialog-close>Submit</button>
+    </mat-dialog-actions>
+  </form>
+}

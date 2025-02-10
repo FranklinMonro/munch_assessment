@@ -28,7 +28,6 @@ export class AuthService {
     );
   };
 
-
   public postLogIn = (loginForm: AuthLogIn): Observable<any> => {
     return this.httpClient.post<AuthLogIn>(`${environment.apiUrl}/api/authenticate/login`, loginForm, { observe: 'response' }).pipe(
       tap((response: HttpResponse<AuthLogIn>) => {

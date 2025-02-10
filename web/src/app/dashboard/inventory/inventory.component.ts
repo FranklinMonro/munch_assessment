@@ -62,6 +62,9 @@ export class InventoryComponent implements AfterViewInit {
   }
 
   openDialog() {
-    this.dialog.open(InventoryDialogComponent);
+    this.dialog.open(InventoryDialogComponent, {
+      width: '50%',
+      height: '60%',
+    });
   }
 }
