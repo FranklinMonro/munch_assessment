@@ -57,11 +57,11 @@ export class AuthenticateComponent implements OnInit {
 
   createForm(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('test@seller.com', [Validators.required, Validators.email]),
-      password: new FormControl('seller123', [Validators.required]),
-      confirmPassword: new FormControl('seller123'),
-      name: new FormControl('The'),
-      surname: new FormControl('Seller'),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      confirmPassword: new FormControl(''),
+      name: new FormControl(''),
+      surname: new FormControl(''),
     });
   }
 
